@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status Management App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@3.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css" rel="stylesheet">
+  <style>
+    body{
+        direction: rtl;
+        /* font-family: 'Roboto', sans-serif !important; */
+    }
+    .app-header {
+        width: 50%;
+        margin: 0 auto;
+        background-color: #4c49ea;
+        text-align: center;
+        padding: 1em 2em;
+        color: #fff;
+        margin: 2em auto;
+    }
+    .app-header > * {
+      font-size: 6rem !important;
+      font-weight: 500;
+    }
+
+    #site-header, #site-footer{
+        display:none
+    }
+    .v-file-input input[type=file]{
+
+        cursor: pointer;
+    }
+    .file-input-container{
+        position:relative;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .file-input-label{
+        position: absolute;
+    left: 35%;
+    top: 10%;
+    z-index: 1;
+    transform: translate(40%,50%);
+    font-size: 1.5rem;
+
+    }
+    .v-field__input{
+        height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .file-input{
+        height: 100%;
+
+    }
+    .gap{gap:5px;}
+    .file-input-label-success{
+        position: absolute;
+    left: 37%;
+    top: 23%;
+    z-index: 1;
+    transform: translate(40%,50%);
+    font-size: 1.5rem;
+    color: green;
+    }
+    .file-input-label-error{
+        position: absolute;
+        left: 31%;
+    top: 51%;
+    z-index: 1;
+    transform: translate(40%,50%);
+    font-size: 1.5rem;
+    color: red;
+    }
+    .card{
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #9e9cff26;
+    padding: 2rem 0;
+    }
+    .card-label{
+        text-align: center;
+        font-size: 1.4rem;
+    }
+    .card-figure{
+        text-align: center;
+        font-size: 1.4rem;
+        
+    }
+    .v-input__details{display: none;}
+    .v-list-subheader {font-size: 1.375rem;
+    justify-content: end;
+    line-height: 2.475rem;}
+    .w-30 {
+ width: 30%;
+}
+
+
+ *, *:before, *:after {
+	 box-sizing: border-box;
+	 outline: none;
+}
+
+
+ .policies {
+	 padding: 1rem;
+}
+ .policies-search {
+	 position: relative;
+	 margin-bottom: 1rem;
+}
+ .policies-search:after {
+	 content: '\f002';
+	 position: absolute;
+	 top: 0;
+	 right: 0;
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 width: 40px;
+	 height: 100%;
+	 color: #6d2077;
+	 font-weight: 900;
+}
+ .policies-search input {
+	 width: 100%;
+	 padding: 0.75rem;
+	 border: 0;
+	 box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+	 transition: 0.25s;
+}
+ .policies-search input:focus {
+	 box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+ .policies-search input::placeholder {
+	 font-size: 12px;
+}
+ .policies-item {
+	 display: flex;
+	 margin-top: -1px;
+	 background-color: #fff;
+	 border: 1px solid #d3d3d3;
+	 color: inherit;
+	 text-decoration: none;
+	 transition: 0.25s;
+}
+ .policies-item:hover {
+	 background-color: #f7f7f7;
+	 box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	 transform: scale(1.01);
+	 transition: 0.15s;
+	 z-index: 99;
+}
+ .policies-content {
+	 flex: 1 1 auto;
+	 padding: 1rem;
+	 border-right: 1px solid #d3d3d3;
+}
+ .policies-title {
+	 margin: 0 0 0.25rem;
+	 font-size: 16px;
+	 font-weight: 400;
+}
+ .policies-department, .policies-date {
+	 font-size: 12px;
+}
+ @media (min-width: 48rem) {
+	 .policies-department, .policies-date {
+		 display: inline-block;
+	}
+	 .policies-department:not(:last-child), .policies-date:not(:last-child) {
+		 margin-right: 1rem;
+	}
+}
+ .policies-department.icon:before, .policies-date.icon:before {
+	 display: inline-flex;
+	 align-items: center;
+	 justify-content: center;
+	 width: 20px;
+	 height: 20px;
+	 margin-right: 0.125rem;
+	 color: #ff5c39;
+	 font-size: 12px;
+}
+ .policies-fileIcon {
+	 flex: 1 0 100px;
+	 display: flex;
+	 align-items: flex-start;
+	 justify-content: center;
+	 min-width: 100px;
+	 max-width: 100px;
+	 padding: 1rem;
+}
+ .policies-fileIcon span {
+	 font-size: 32px;
+}
+ .icon:before {
+	 font-weight: 900;
+}
+ .icon-date:before {
+	 content: '\f133';
+}
+ .icon-accounting:before {
+	 content: '\f1ec';
+}
+ .icon-hr:before {
+	 content: '\f500';
+}
+ .icon-finance:before {
+	 content: '\f155';
+}
+ .icon-legal:before {
+	 content: '\f24e';
+}
+ .icon-marketing:before {
+	 content: '\f681';
+}
+ .icon-operations:before {
+	 content: '\f1ad';
+}
+ .icon-sales:before {
+	 content: '\f02c';
+}
+ .icon-volunteer:before {
+	 content: '\f4c4';
+}
+ .icon-excel:before {
+	 content: '\f1c3';
+	 color: #2ecc71;
+}
+ .icon-pdf:before {
+	 content: '\f1c1';
+	 color: #e74c3c;
+}
+ .icon-powerpoint:before {
+	 content: '\f1c4';
+	 color: #e67e22;
+}
+ .icon-word:before {
+	 content: '\f1c2';
+	 color: #3498db;
+}
+
+.disabled{
+  user-select: none;
+    pointer-events: none;
+    background: gray !important;
+    opacity: 0.4;
+}
+ 
+  </style>
+
+</head>
+
+<body>
+
+
+  <div id="app" class="p-8"></div>
+  <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@3.x/dist/vuetify.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+  <script>
+    const {
+      createApp,
+      ref
+    } = Vue;
+    const {
+      createVuetify
+    } = Vuetify;
+    const vuetify = createVuetify();
+
+    const app = createApp({
+      template: `
+
+
+      <v-container>
+        <v-card
+    class="mx-auto app-header"
+    width="400"
+  >
+        <template v-slot:title>
+    برنامج استيراد الفواتير 
+    </template>
+
+  </v-card>
+
+    <div class="file-input-container">
+    <span v-if="!file" class="file-input-label">Upload Your Excel File</span>
+    <v-file-input class="file-input" @change="onChangeFile(e)" clearable  @click:clear="onClearFile" variant="solo-filled">
+        </v-file-input>
+        </div>
+        <div v-if="excel" class="file-input-label-success">تم استيراد الملف بنجاح</div>
+        <div v-if="error" class="file-input-label-error">يرجى استيراد ملفات اكسيل فقط</div>
+
+ 
+
+<div class="" v-if="excel && !error">
+<div class="d-flex gap">
+        <v-card
+            class="card mx-auto"
+            width="400"
+            variant="tonal">
+            <div class="card-label">
+                الإجمالي شامل الضريبة 
+            </div>
+        <div class="card-figure" v-html="sumColumn(8)"></div>
+        </v-card>
+        <v-card
+        class="card mx-auto"
+        width="400"
+        variant="tonal">
+        <div class="card-label">
+            إجمالي الضريبة 
+            </div>
+            <div class="card-figure" v-html="sumTax(8)"></div>
+            </v-card>
+            <v-card
+            class="card mx-auto"
+            width="400"
+            variant="tonal">
+        <div class="card-label">
+                إجمالي بدون الضريبة 
+            </div>
+            <div class="card-figure" v-html="sumColumn(8)-sumTax(8)"></div>
+
+        </v-card>
+        <v-card
+            class="card mx-auto"
+            width="400"
+             variant="tonal">
+            <div class="card-label">
+                عدد الفواتير
+                </div>
+                <div class="card-figure" v-html="invCount"></div>
+
+        </v-card>
+    </div>
+
+
+
+    <div >
+<div class="policies" id="policies">
+  <h1>فواتير</h1>
+  
+  <div class="policies-filters">
+  </div><a class="policies-item" v-for="invoice in allInvoices.slice(1)" href="#">
+    <div class="policies-content">
+      <h3 class="policies-title" v-html="invoice[7]"></h3>
+      <div class="">
+        <span class="policies-title" v-html="allInvoices[0][2]"></span>: 
+      <span class="policies-title" v-html="invoice[2]"></span>
+</div>
+   
+        <div class="policies-department icon">
+        <span v-html="allInvoices[0][12]"></span>
+        : <span v-html="invoice[12]"></span>
+        </div>
+      <div class="policies-department icon">
+        <span v-html="allInvoices[0][11]"></span>
+        : <span v-html="invoice[11]"></span>
+        </div>
+        <div class="policies-department icon">
+        <span>المستحق</span>
+        : <span v-html="invoice[10]"></span>
+        </div>
+        <div class="policies-department icon">
+        <span v-html="allInvoices[0][4]"></span>
+        : <span v-html="invoice[4]"></span>
+        </div>
+ 
+    </div>
+    
+    <div class="policies-fileIcon"><span class="icon" :class="invoice[5]"><svg width="2rem" viewBox="0 0 24 24"><title>receipt-text-outline</title><path d="M19.5 3.5L18 2L16.5 3.5L15 2L13.5 3.5L12 2L10.5 3.5L9 2L7.5 3.5L6 2L4.5 3.5L3 2V22L4.5 20.5L6 22L7.5 20.5L9 22L10.5 20.5L12 22L13.5 20.5L15 22L16.5 20.5L18 22L19.5 20.5L21 22V2L19.5 3.5M19 19H5V5H19V19M6 15H18V17H6M6 11H18V13H6M6 7H18V9H6V7Z" /></svg></span></div></a>
+</div></div>
+
+
+
+
+
+    <div class="d-flex align-items-start text-white justify-content-start gap w-30">
+      <v-btn height="48" class="bg-danger text-white" @click="reset">
+        إعادة تحميل
+      </v-btn>
+
+      <v-btn
+        :loading="loading"
+        class="flex-grow-1 bg-success text-white"
+        height="48"
+        variant="tonal"
+        @click="POSThandler"
+        :class="{disabled: counter > 0}"
+      >
+     إنشاء فواتير
+      </v-btn>
+    </div>
+    <div style="margin-top: 0.5rem;font-size: 1rem;direction: rtl;" class="d-flex align-items-start justify-content-center w-30">
+      تم إنشاء عدد&nbsp;(
+      <span v-html="counter"></span>/
+      <span v-html="allInvoices.length-1"></span>
+      )&nbsp;فواتير مسودة
+      </div>
+      <div v-if="isInvoiceError" style="color:red;margin-top: 1.5rem;font-size: 1rem;direction: rtl;" class="d-flex align-items-start justify-content-center w-30" v-html="invoiceError">
+      </div>
+    </div>
+  </v-container>
+
+      `,
+      data: function() {
+   return {
+    isInvoiceError: ref(false),
+    invoiceError: ref(""),
+    invoiceErrorClientIDs: ref([]),
+    counter: ref(0),
+    loading: ref(false),
+    file: ref(false),
+    excel: ref(false),
+    error: ref(false),
+    invCount: ref(0),
+    allInvoices: ref([]),
+    allClients: ref([]),
+    allProducts: ref([]),
+    subdomain: ref("exapem"),
+    apikey: ref("301c0974e6a91e132dd4f52f94b9efaa47ecf20e")
+   }
+ },
+      methods: {
+        async onChangeFile(e) {
+            try{
+                const rows = await readXlsxFile(event.target.files[0])
+                this.allInvoices = rows
+                this.file = true
+                this.excel = true
+                this.error = false
+                this.counter = 0
+                this.invCount = rows.length-1
+                console.log(rows)
+                this.isInvoiceError = false
+            this.invoiceErrorClientIDs = []
+            this.invoiceError = ""
+            this.loading = false
+            }catch(err){
+                console.log(err)
+                this.file = true
+                this.error = true
+                this.excel = false
+                
+            }
+        },
+        onClearFile(){
+            this.file = false
+            this.counter = 0
+            this.excel = false
+            this.error = false
+            console.log(this.file)
+            this.isInvoiceError = false
+            this.invoiceErrorClientIDs = []
+            this.invoiceError = ""
+            this.loading = false
+        },
+        reset(){
+            this.file = false
+            this.excel = false
+            this.counter = 0
+            this.error = false
+            document.querySelector("i.mdi-close-circle").click()
+            this.isInvoiceError = false
+            this.invoiceErrorClientIDs = []
+            this.invoiceError = ""
+            this.loading = false
+
+        },
+        sumColumn(index){
+             return this.allInvoices.slice(1).map(row=>row[index]).reduce((acc, curr)=>acc+curr,0)
+        },
+        sumTax(index){
+            return this.allInvoices.slice(1).map(row =>row[index]*.15).reduce((acc, curr)=>acc+curr,0)
+        },
+        async POSTclient(clientName, clientAddress, clientPhone, clientBn){
+              const clients = await fetch(`https://${this.subdomain}.daftra.com/api2/clients`,{
+                method: "POST", 
+                headers: {
+                "Content-Type": "application/json",
+                "apikey": this.apikey
+                },
+                body: JSON.stringify({
+                  Client:{
+    "business_name": clientName,
+    "address1": clientAddress,
+    "phone1": clientPhone,
+    "bn1": clientBn
+  }   })
+              })  
+              return clients
+
+        
+      },
+
+      async POSThandler(){
+        this.loading = true
+        this.allInvoices.slice(1).map(async(invoice) =>{
+              const clientID = +invoice[1]
+            // console.log(clientID)
+        if(!clientID){
+                const newClient = await this.POSTclient(invoice[2], invoice[3], invoice[5], invoice[4])
+                const clientRes = await newClient.json()
+                const createdClientID = clientRes.id
+              console.log("New client was created:", clientRes)
+              const newInvoice = await this.POSTinvoices(invoice, createdClientID)
+                const invoiceRes = await newInvoice.json()
+                console.log("New Invoice was created; AFTER creating a new client...", invoiceRes)
+                if(await invoiceRes.code == 202){
+                  this.counter+=1
+                this.loading = this.allInvoices.length == this.counter ? false : true
+                }
+              }else{
+                const newInvoice = await this.POSTinvoices(invoice)
+                const res = await newInvoice.json()
+                console.log("New Invoice was created;", res)
+                if(await res.code == 202){
+                  this.counter+=1
+                this.loading = this.allInvoices.length == this.counter ? false : true
+                }else{
+                  this.isInvoiceError = true
+                  this.invoiceErrorClientIDs = [...this.invoiceErrorClientIDs, invoice[1]]
+                  this.invoiceError = `يوجد خطأ في رقم العميل: ${this.invoiceErrorClientIDs}`
+                }
+          
+              }              
+            })
+      },
+  
+        async POSTinvoices(invoice, createdClientID=null){
+            const year = invoice[0].split("/")[2] 
+            const month = invoice[0].split("/")[1].length < 2 ? `0${invoice[0].split("/")[1]}` : invoice[0].split("/")[1]
+            const day = invoice[0].split("/")[0].length < 2 ? `0${invoice[0].split("/")[0]}` : invoice[0].split("/")[0]
+           const date =  `${year}-${month}-${day}` 
+          //  console.log(date)
+              const invoices = await fetch(`https://${this.subdomain}.daftra.com/api2/invoices`,{
+                method: "POST", 
+                headers: {
+                "Content-Type": "application/json",
+                "apikey": this.apikey
+                },
+                body: JSON.stringify({
+
+                  "Invoice": {
+                    "draft":1,
+    "client_id": createdClientID || this.allClients[invoice[1]],
+    "business_name": invoice[2],
+    "address1": invoice[3],
+    "phone1": invoice[5],
+    "bn1": invoice[4],
+    "client_email": "cutsomer@email.com",
+    "branch_id": invoice[12],
+    "notes": invoice[13],
+    "date": date,
+  },
+  "InvoiceItem": [
+    {
+      "item": this.allProducts[invoice[7]] || null,
+      "unit_price":  invoice[8]/.85,
+      "quantity": 1,
+      "tax1":  1,
+      "product_id":  invoice[6],
+      "discount":  invoice[9],
+      "discount_type": "1",
+      "store_id": 0
+    }
+  ],
+  "Payment": [
+    {
+      "payment_method": "cash",
+      "amount":  invoice[11],
+      "treasury_id": 0,
+    }
+  ],
+                })
+              })  
+              return invoices
+        
+        },
+        
+      },
+      beforeMount: async function(){
+              const req1 = await fetch(`https://${this.subdomain}.daftra.com/api2/clients?limit=2000`,{
+                headers: {
+                "Content-Type": "application/json",
+                "apikey": this.apikey
+                },
+              })  
+              const clients = await req1.json()
+              const clientsArr = clients.data.map(client=> ({[client.Client.client_number]:client.Client.id}))
+              this.allClients = Object.entries(clientsArr).reduce((p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }), {});  
+
+              const req2 = await fetch(`https://${this.subdomain}.daftra.com/api2/products?limit=2000`,{
+                headers: {
+                "Content-Type": "application/json",
+                "apikey": this.apikey
+                },
+              })  
+              const products = await req2.json()
+              productsArr = products.data.map(prod=> ({[prod.Product.id]:prod.Product.product_code}))
+              this.allProducts = Object.entries(productsArr).reduce((p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }), {}); 
+              console.log(this.allClients, this.allProducts)
+      }
+
+      
+    });
+
+    app.use(vuetify).mount("#app");
+  </script>
+</body>
+
+</html>
+Command here..
